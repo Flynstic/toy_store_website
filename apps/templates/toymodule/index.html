@@ -1,2 +1,9 @@
-<h1>Welcome to my toy shop!</h1>
-<p>We selling games and other goods</p>
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block content %}
+<h1>Welcome to our toy shop!</h1>
+<ul>
+    <li><img src = "{% static '/products/1.png' %}" alt="My image" width = '200' height = '200'><h4>FAST LANE - 1:43 CONSTRUCTION VEHICLE SET</h4></li>
+    <li><img src = "{% static '/products/2.png' %}" alt="My image" width = '200' height = '200'><h4>MOTORMAX - James Bond - 1:18 1957 Chevy Bel Air</h4></li>
+</ul>
+{% endblock content %}
