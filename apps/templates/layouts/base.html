@@ -6,8 +6,14 @@
       <title>
          Toy Store - {% block title %}{% endblock %}
       </title>
-
-      <!-- here you put your stylesheets-->
+      <style>
+         table, th, td {
+           border:1px solid black;
+         }
+      </style>
+      {% load bootstrap5 %}
+      {% bootstrap_css %}
+      {% bootstrap_javascript %}
       <!-- here you put your js-->
    </head>
    <body>
