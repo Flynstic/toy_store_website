@@ -5,6 +5,7 @@ class User(models.Model):
     password = models.CharField(max_length = 25)
     firstname = models.CharField(max_length = 25)
     lastname = models.CharField(max_length = 25)
+    isLogged = models.BooleanField(default=False)
     
 
 class Product(models.Model):
