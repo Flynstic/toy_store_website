@@ -12,4 +12,5 @@ urlpatterns = [
     path('cars-and-bikes', views.carsAndBikes),
     path('login', views.login),
     path('register', views.register),
+    path('addProduct', views.register),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
