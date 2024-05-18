@@ -1,5 +1,12 @@
+import logging
 from django.shortcuts import render, redirect
-from .models import User, Product
+from .models import Product
+from .forms import AddProductForm, AddUserForm, LoginForm
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
+
+#logger = logging.getLogger(__name__)
 
 def index(request):
     # render the appropriate template for this request
@@ -7,51 +14,58 @@ def index(request):
     return render(request, 'toymodule/index.html', {'products':products})
 
 def login(request):
+    form = LoginForm()
     if request.method == "POST":
-        mail = request.POST.get('email')
-        passwd = request.POST.get('passwd') 
-        checkEmail = User.objects.filter()
-        for c in checkEmail:
-            if c.email == mail:
-                if c.password == passwd:
-                    return redirect('addProduct')
-                else:
-                    error_messege = 'Email or password is incorrect!'
-                    return render(request, 'toymodule/login.html', {'error_messege': error_messege})
-        error_messege = 'Email or password is incorrect!'
-        return render(request, 'toymodule/login.html', {'error_messege': error_messege})
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth.login(request, user)
+                return redirect('dashboard')
         
-    return render(request, 'toymodule/login.html')
+    return render(request, 'toymodule/login.html', {'loginform': form})
 
-def authorize(request):
-    pass
+def logout(request):
+    auth.logout(request)
+    return redirect("index")
 
 def register(request):
+    form = AddUserForm()
     if request.method == "POST":
-        mail = request.POST.get('email')
-        passwd = request.POST.get('passwd')
-        fname = request.POST.get('fname')
-        lname = request.POST.get('lname')
-        if mail == passwd == fname == lname == '':
-            error_messege = 'Fields should not be empty!'
-            return render(request, 'toymodule/register.html', {'error_messege': error_messege})
-        if len(passwd) < 8:
-            error_messege = 'Password should be more than 8 letters!'
-            return render(request, 'toymodule/register.html', {'error_messege': error_messege})
-        checkEmail = User.objects.filter()
-        for c in checkEmail:
-            if c.email == mail:
-                error_messege = 'Account is already existing!'
-                return render(request, 'toymodule/register.html', {'error_messege': error_messege})
-        print(User.objects.filter(email__contains=mail))
-        newuser = User.objects.create(email = mail, password = passwd, firstname = fname, lastname= lname)
-        newuser.save()
-        return render(request, 'toymodule/registerSuccess.html')
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'toymodule/registerSuccess.html')
     
-    return render(request, 'toymodule/register.html')
+    return render(request, 'toymodule/register.html', {"registerform":form})
 
+@login_required(login_url='login')
 def addProduct(request):
-    return render(request, 'toymodule/addProduct.html')
+    if request.method == "POST":
+        form = AddProductForm(request.POST, request.FILES)
+        image = request.FILES.get('pimage')
+        print(image)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+    else:
+        form = AddProductForm()
+    return render(request, 'toymodule/addProduct.html', {"form":form})
+
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request, 'toymodule/dashboard.html')
+
+@login_required(login_url='login')
+def accountInfo(request):
+    user = request.user
+    email = user.email
+    username = user.username
+    context = {"email":email,"username":username}
+    return render(request, 'toymodule/accountInfo.html', context=context)
+
 
 def babyToys(request):
     products = Product.objects.filter(pcategory__exact = 'Baby Toys').order_by('pname')
