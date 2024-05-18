@@ -1,24 +1,37 @@
 <header>
-    <table style="width:100%">
-        <tr>
-            <td>
-                <a href='/'>Toy Store</a>
-            </td>
-            <td>
-                <a href='/baby-toys'>Baby Toys</a>
-            </td>
-            <td>
-                <a href='/outdoors'>Outdoors</a>
-            </td>
-            <td>
-                <a href='/dolls-and-playsets'>Dolls and Playsets</a>
-            </td>
-            <td>
-                <a href='/cars-and-bikes'>Cars and Bikes</a>
-            </td>
-            <td>
-                <a href='/login'>Sign in</a>
-            </td>
-        </tr>
-    </table>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">Toy Store</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" href="/">Home</a>
+          <a class="nav-item nav-link" href="/baby-toys">Baby Toys</a>
+          <a class="nav-item nav-link" href="/outdoors">Outdoors</a>
+          <a class="nav-item nav-link" href="/dolls-and-playsets"
+            >Dolls and Playsets</a
+          >
+          <a class="nav-item nav-link" href="/cars-and-bikes">Cars and Bikes</a>
+          {% if user.is_authenticated%}
+          <a class="nav-item nav-link" href="/dashboard">Dashboard</a>
+          {% endif %} {% if user.is_authenticated%}
+          <a class="nav-item nav-link" href="/logout">Sign Out</a>
+          {% else %}
+          <a class="nav-item nav-link" href="/login">Sign In</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+  <br>
 </header>

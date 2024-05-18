@@ -3,27 +3,22 @@
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width">
+      <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/cerulean/bootstrap.min.css">
       <title>
          Toy Store - {% block title %}{% endblock %}
       </title>
       <style>
-         table, th, td {
-           border:1px solid black;
-         }
+         
       </style>
-      {% load bootstrap5 %}
-      {% bootstrap_css %}
-      {% bootstrap_javascript %}
       <!-- here you put your js-->
    </head>
    <body>
       
       {% include 'includes/header.html' %}
-      
-      {% block content %}
-      {% endblock content %}
-      
+      <div class = "container">
+         {% block content %}
+         {% endblock content %}
+      </div>
       {% include 'includes/footer.html' %}
-      
    </body>
 </html>
