@@ -1,14 +1,14 @@
 {% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %} Sign in {% endblock %}
 
 {% block content %}
 <h2>Sign in</h2>
-<form>
-    <label for="email">Email Address:</label><br>
-    <input type="text" id="email" name="email"><br>
-    <label for="passwd">Password:</label><br>
-    <input type="password" id="passwd" name="passwd"><br>
+<br>
+<form method = 'post'>
+    {% csrf_token %}
+    {{loginform|crispy}}
     <input type="submit" value="Sign in">
 </form> 
 <a href='/register'>Sign up</a>
